@@ -63,6 +63,7 @@
                 return input;
             }();
             this.size = _config.size || 500;
+            this.type = _config.type || 'jpeg';
             this.quality = _config.quality || 0.7;
 
             this.ua = uaParser();
@@ -151,7 +152,7 @@
                     }
 
                     if(_self.completeHandler)
-                        _self.completeHandler.call(this, _self.canvas.toDataURL('image/jpeg', _self.quality));
+                        _self.completeHandler.call(this, _self.canvas.toDataURL('image/' + _self.type, _self.quality));
                 });
             };
         },
