@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>imguper</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=640, target-densitydpi=device-dpi, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <script type="text/javascript" src="../exif.js"></script>
+    <script type="text/javascript" src="../imguper.js"></script>
+
+    <style>
+        #btn{
+            width:200px;
+            height:100px;
+            background: #ff0000;
+        }
+    </style>
+</head>
+
+<body>
+<div id="btn"></div>
+<img id="show" src=""/>
+
+<script>
+    var uploader = new ImgUper();
+    uploader.handler(function(img){
+        document.getElementById('show').setAttribute('src',img);
+    });
+    document.getElementById('btn').addEventListener('click', function(){
+        uploader.select();
+    });
+</script>
+
+</body>
+</html>
