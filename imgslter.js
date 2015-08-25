@@ -54,6 +54,8 @@
 
     extend(ImgSlter.prototype, {
         init: function(config){
+            var _self = this;
+
             var _config = config || {};
             this.el = _config.el?getElement(_config.el)[0]:function(){
                 var input = document.createElement("INPUT");
@@ -70,8 +72,12 @@
             this.canvas = document.createElement('canvas');
             this.ctx = this.canvas.getContext('2d');
 
-            this.el.addEventListener('change', this.change.bind(this), false);
+            this.changeHandler = function(evt){
+                _self.change(evt);
+            }
+            this.el.addEventListener('change', this.changeHandler, false);
 
+            this.handler = null;
         },
         change: function(evt){
             var _self = this;
@@ -151,20 +157,25 @@
                         _self.ctx.drawImage(img, -imgW2/2, -imgH2/2, imgW2, imgH2);
                     }
 
-                    if(_self.completeHandler)
-                        _self.completeHandler.call(this, _self.canvas.toDataURL('image/' + _self.type, _self.quality));
+                    if(_self.handler)
+                        _self.handler.call(this, {
+                            img: _self.canvas.toDataURL('image/' + _self.type, _self.quality),
+                            width: _self.canvas.width,
+                            height: _self.canvas.height
+                        });
                 });
             };
         },
-        handler: function(handler) {
-            this.completeHandler = handler;
-        },
         select: function(){
-            this.el.click();
+            if(this.el) this.el.click();
         },
         destroy: function(){
-            this.el.removeEventListener('change', this.change, false);
-            delete this;
+            this.el.removeEventListener('change', this.changeHandler, false);
+            delete this.ua;
+            delete this.ctx;
+            delete this.canvas;
+            delete this.el;
+            //delete this;
         }
     });
 
