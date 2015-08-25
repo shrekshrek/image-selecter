@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
 
     <script type="text/javascript" src="../exif.js"></script>
-    <script type="text/javascript" src="../imguper.js"></script>
+    <script type="text/javascript" src="../imgslter.js"></script>
 
     <style>
         #btn{
@@ -25,12 +25,12 @@
 <img id="show" src=""/>
 
 <script>
-    var uploader = new ImgUper();
-    uploader.handler(function(img){
+    var selecter = new ImgSlter();
+    selecter.handler(function(img){
         document.getElementById('show').setAttribute('src',img);
     });
     document.getElementById('btn').addEventListener('click', function(){
-        uploader.select();
+        selecter.select();
     });
 
 </script>

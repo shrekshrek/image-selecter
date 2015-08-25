@@ -13,16 +13,16 @@
 
     if (typeof define === 'function' && define.amd) {
         define(['exif', 'exports'], function(EXIF, exports) {
-            root.ImgUper = factory(root, exports, EXIF);
+            root.ImgSlter = factory(root, exports, EXIF);
         });
     } else if (typeof exports !== 'undefined') {
         var EXIF = require('exif');
         factory(root, exports, EXIF);
     } else {
-        root.ImgUper = factory(root, {}, root.EXIF);
+        root.ImgSlter = factory(root, {}, root.EXIF);
     }
 
-}(function(root, ImgUper, EXIF) {
+}(function(root, ImgSlter, EXIF) {
 
     function uaParser(){
         var u = navigator.userAgent;
@@ -48,11 +48,11 @@
         }
     }
 
-    ImgUper = function() {
+    ImgSlter = function() {
         this.init.apply(this, arguments);
     };
 
-    extend(ImgUper.prototype, {
+    extend(ImgSlter.prototype, {
         init: function(config){
             var _config = config || {};
             this.el = _config.el?getElement(_config.el)[0]:function(){
@@ -168,5 +168,5 @@
         }
     });
 
-    return ImgUper;
+    return ImgSlter;
 }));
