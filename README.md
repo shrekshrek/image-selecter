@@ -2,6 +2,8 @@ image-uploader
 ============
 
 感谢soddy.gu，在他组件基础上整理封装的图片上传组件  
+exif使用第三方组件，https://github.com/exif-js/exif-js  
+
 
 
 创建组件  
