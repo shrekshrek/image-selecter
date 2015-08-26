@@ -27,7 +27,7 @@
 <script>
     var selecter = new ImgSlter();
     selecter.handler = function(data){
-        document.getElementById('show').setAttribute('src',data.img);
+        document.getElementById('show').src = data.img;
     };
     document.getElementById('btn').addEventListener('click', function(){
         selecter.select();

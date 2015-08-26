@@ -59,9 +59,9 @@
             var _config = config || {};
             this.el = _config.el?getElement(_config.el)[0]:function(){
                 var input = document.createElement("INPUT");
-                input.setAttribute("type", "file");
-                input.setAttribute("accept", "image/*");
-                input.setAttribute("capture", "camera");
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.capture = 'camera';
                 return input;
             }();
             this.size = _config.size || 500;
@@ -69,12 +69,12 @@
             this.quality = _config.quality || 0.7;
 
             this.ua = uaParser();
-            this.canvas = document.createElement('canvas');
-            this.ctx = this.canvas.getContext('2d');
+            this.cvs = document.createElement('canvas');
+            this.ctx = this.cvs.getContext('2d');
 
             this.changeHandler = function(evt){
                 _self.change(evt);
-            }
+            };
             this.el.addEventListener('change', this.changeHandler, false);
 
             this.handler = null;
@@ -115,29 +115,29 @@
 
                     switch(Orientation){
                         case 3:
-                            _self.canvas.width = imgW2;
-                            _self.canvas.height = imgH2;
+                            _self.cvs.width = imgW2;
+                            _self.cvs.height = imgH2;
                             _self.ctx.clearRect(0, 0, imgW2, imgH2);
                             _self.ctx.translate(imgW2/2, imgH2/2);
                             _self.ctx.rotate(180 * Math.PI / 180);
                             break;
                         case 6:
-                            _self.canvas.width = imgH2;
-                            _self.canvas.height = imgW2;
+                            _self.cvs.width = imgH2;
+                            _self.cvs.height = imgW2;
                             _self.ctx.clearRect(0, 0, imgH2, imgW2);
                             _self.ctx.translate(imgH2/2, imgW2/2);
                             _self.ctx.rotate(90 * Math.PI / 180);
                             break;
                         case 8:
-                            _self.canvas.width = imgH2;
-                            _self.canvas.height = imgW2;
+                            _self.cvs.width = imgH2;
+                            _self.cvs.height = imgW2;
                             _self.ctx.clearRect(0, 0, imgH2, imgW2);
                             _self.ctx.translate(imgH2/2, imgW2/2);
                             _self.ctx.rotate(270 * Math.PI / 180);
                             break;
                         default:
-                            _self.canvas.width = imgW2;
-                            _self.canvas.height = imgH2;
+                            _self.cvs.width = imgW2;
+                            _self.cvs.height = imgH2;
                             _self.ctx.clearRect(0, 0, imgW2, imgH2);
                             _self.ctx.translate(imgW2/2, imgH2/2);
                             break;
@@ -159,9 +159,9 @@
 
                     if(_self.handler)
                         _self.handler.call(this, {
-                            img: _self.canvas.toDataURL('image/' + _self.type, _self.quality),
-                            width: _self.canvas.width,
-                            height: _self.canvas.height
+                            img: _self.cvs.toDataURL('image/' + _self.type, _self.quality),
+                            width: _self.cvs.width,
+                            height: _self.cvs.height
                         });
                 });
             };
@@ -173,9 +173,8 @@
             this.el.removeEventListener('change', this.changeHandler, false);
             delete this.ua;
             delete this.ctx;
-            delete this.canvas;
+            delete this.cvs;
             delete this.el;
-            //delete this;
         }
     });
 
