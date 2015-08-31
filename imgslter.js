@@ -145,7 +145,7 @@
 
                     if (3260 < tmpImgW || tmpImgH > 2440) {
                         if (_self.ua.ios) {
-                            if (parseInt(_self.ua.iosv) == 8) {
+                            if (parseInt(_self.ua.iosv) >= 8) {
                                 _self.ctx.drawImage(img, 0, 0, imgW, imgH, -imgW2 / 2, -imgH2 / 2, imgW2, imgH2);
                             } else {
                                 _self.ctx.drawImage(img, 0, 0, imgW / 2, imgH / 2, -imgW2 / 2, -imgH2 / 2, imgW2, imgH2);
