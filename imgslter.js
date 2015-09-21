@@ -163,6 +163,8 @@
                             width: _self.cvs.width,
                             height: _self.cvs.height
                         });
+
+                    window.URL.revokeObjectURL(_file);
                 });
             };
         },
