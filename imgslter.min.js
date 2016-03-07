@@ -1,7 +1,7 @@
 /*!
  * VERSION: 0.1.0
  * DATE: 2015-09-24
- * GIT:https://github.com/shrekshrek/image-uploader
+ * GIT:https://github.com/shrekshrek/image-selecter
  *
  * @author: Shrek.wang, shrekshrek@gmail.com
  **/
