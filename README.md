@@ -1,7 +1,7 @@
 image-selecter
 ============
 
-感谢soddy.gu，在他组件基础上整理封装的图片上传组件  
+感谢soddy.gu，在他组件基础上整理封装的图片本地选取组件  
 exif使用第三方组件，https://github.com/exif-js/exif-js  
 
 
