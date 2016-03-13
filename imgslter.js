@@ -38,16 +38,6 @@
         }
     }
 
-    function getElement(target) {
-        if (!target) throw "target is undefined, can't tween!!!";
-
-        if (typeof(target) == 'string') {
-            return (typeof(document) === 'undefined') ? target : (document.querySelectorAll ? document.querySelectorAll(target) : document.getElementById((target.charAt(0) === '#') ? target.substr(1) : target));
-        } else {
-            return target;
-        }
-    }
-
     ImgSlter = function () {
         this.initialize.apply(this, arguments);
     };
@@ -57,7 +47,7 @@
             var _self = this;
 
             var _config = config || {};
-            this.el = function () {
+            this.el = _config.el || function () {
                 var input = document.createElement("INPUT");
                 input.type = 'file';
                 input.accept = 'image/*';
@@ -67,6 +57,7 @@
             this.size = _config.size || 500;
             this.type = _config.type || 'jpeg';
             this.quality = _config.quality || 0.7;
+            this.handler = _config.handler || function(){};
 
             this.ua = uaParser();
             this.cvs = document.createElement('canvas');
@@ -77,7 +68,6 @@
             };
             this.el.addEventListener('change', this.changeHandler, false);
 
-            this.handler = null;
         },
         change: function (evt) {
             var _self = this;
@@ -157,12 +147,11 @@
                         _self.ctx.drawImage(img, -imgW2 / 2, -imgH2 / 2, imgW2, imgH2);
                     }
 
-                    if (_self.handler)
-                        _self.handler.call(this, {
-                            img: _self.cvs.toDataURL('image/' + _self.type, _self.quality),
-                            width: _self.cvs.width,
-                            height: _self.cvs.height
-                        });
+                    _self.handler.call(this, {
+                        img: _self.cvs.toDataURL('image/' + _self.type, _self.quality),
+                        width: _self.cvs.width,
+                        height: _self.cvs.height
+                    });
 
                     window.URL.revokeObjectURL(_file);
                 });
