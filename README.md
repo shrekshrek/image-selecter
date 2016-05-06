@@ -1,9 +1,10 @@
 image-selecter
 ============
 
-感谢soddy.gu，在他组件基础上整理封装的图片本地选取组件  
-exif使用第三方组件，https://github.com/exif-js/exif-js  
+用于选择本地图片(支持手机摄像头拍照).不论是否横竖屏拍摄,最终得到的图片都会修正为正向图片,并缩放到指定大小,以方便后续操作使用.  
 
+
+demo地址:http://shrek.imdevsh.com/demo/input/  
 
 
 创建组件  
@@ -19,6 +20,12 @@ config.quality  输出图片质量，当图片为jpeg时有效
 selecter.select()   开始选择图片，需要在click事件中调用。  
 selecter.destroy()  销毁实例  
 selecter.handler  注：此处是个变量。设置选择图片后的捕捉函数，传入唯一参数是一个toDataURL获得的图片二进制流。  
+
+
+
+
+感谢soddy.gu，在他组件基础上整理封装的图片本地选取组件  
+exif使用第三方组件，https://github.com/exif-js/exif-js  
 
 
 欢迎研讨。QQ:274924021  
