@@ -32,17 +32,11 @@
         };
     }
 
-    function extend(obj, obj2) {
-        for (var prop in obj2) {
-            obj[prop] = obj2[prop];
-        }
-    }
-
     ImgSlter = function () {
         this.initialize.apply(this, arguments);
     };
 
-    extend(ImgSlter.prototype, {
+    ImgSlter.prototype = {
         initialize: function (config) {
             var _self = this;
 
@@ -63,13 +57,11 @@
             this.cvs = document.createElement('canvas');
             this.ctx = this.cvs.getContext('2d');
 
-            this.changeHandler = function (evt) {
-                _self.change(evt);
-            };
-            this.el.addEventListener('change', this.changeHandler, false);
+            this._changeHandler = this._changeHandler.bind(this);
+            this.el.addEventListener('change', this._changeHandler, false);
 
         },
-        change: function (evt) {
+        _changeHandler: function (evt) {
             var _self = this;
 
             var _file = evt.target.files[0];
@@ -161,13 +153,13 @@
             if (this.el) this.el.click();
         },
         destroy: function () {
-            this.el.removeEventListener('change', this.changeHandler, false);
+            this.el.removeEventListener('change', this._changeHandler, false);
             delete this.ua;
             delete this.ctx;
             delete this.cvs;
             delete this.el;
         }
-    });
+    };
 
     return ImgSlter;
 }));

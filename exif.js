@@ -1,21 +1,23 @@
-
-(function(factory) {
-    var root = (typeof self == 'object' && self.self == self && self) ||
-        (typeof global == 'object' && global.global == global && global);
-
-    if (typeof define === 'function' && define.amd) {
-        define(['exports'], function(exports) {
-            root.EXIF = factory(root, exports);
-        });
-    } else if (typeof exports !== 'undefined') {
-        factory(root, exports);
-    } else {
-        root.EXIF = factory(root, {});
-    }
-
-}(function(root, EXIF) {
+(function() {
 
     var debug = false;
+
+    var root = this;
+
+    var EXIF = function(obj) {
+        if (obj instanceof EXIF) return obj;
+        if (!(this instanceof EXIF)) return new EXIF(obj);
+        this.EXIFwrapped = obj;
+    };
+
+    if (typeof exports !== 'undefined') {
+        if (typeof module !== 'undefined' && module.exports) {
+            exports = module.exports = EXIF;
+        }
+        exports.EXIF = EXIF;
+    } else {
+        root.EXIF = EXIF;
+    }
 
     var ExifTags = EXIF.Tags = {
 
@@ -749,12 +751,12 @@
             }
         }
         return true;
-    };
+    }
 
     EXIF.getTag = function(img, tag) {
         if (!imageHasData(img)) return;
         return img.exifdata[tag];
-    };
+    }
 
     EXIF.getAllTags = function(img) {
         if (!imageHasData(img)) return {};
@@ -767,7 +769,7 @@
             }
         }
         return tags;
-    };
+    }
 
     EXIF.pretty = function(img) {
         if (!imageHasData(img)) return "";
@@ -788,12 +790,16 @@
             }
         }
         return strPretty;
-    };
+    }
 
     EXIF.readFromBinaryFile = function(file) {
         return findEXIFinJPEG(file);
-    };
+    }
 
-    return EXIF;
-}));
+    if (typeof define === 'function' && define.amd) {
+        define('exif-js', [], function() {
+            return EXIF;
+        });
+    }
+}.call(this));
 
