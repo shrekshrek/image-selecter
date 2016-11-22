@@ -1,28 +1,24 @@
 /*!
  * VERSION: 0.1.0
  * DATE: 2015-09-24
- * GIT:https://github.com/shrekshrek/image-selecter
- *
- * @author: Shrek.wang, shrekshrek@gmail.com
+ * GIT: https://github.com/shrekshrek/image-selecter
+ * @author: Shrek.wang
  **/
 
 (function (factory) {
 
-    var root = (typeof self == 'object' && self.self == self && self) ||
-        (typeof global == 'object' && global.global == global && global);
-
     if (typeof define === 'function' && define.amd) {
         define(['exif', 'exports'], function (EXIF, exports) {
-            root.ImgSlter = factory(root, exports, EXIF);
+            window.ImgSlter = factory(exports, EXIF);
         });
     } else if (typeof exports !== 'undefined') {
         var EXIF = require('exif');
-        factory(root, exports, EXIF);
+        factory(exports, EXIF);
     } else {
-        root.ImgSlter = factory(root, {}, root.EXIF);
+        window.ImgSlter = factory({}, window.EXIF);
     }
 
-}(function (root, ImgSlter, EXIF) {
+}(function (ImgSlter, EXIF) {
 
     function uaParser() {
         var u = navigator.userAgent;
