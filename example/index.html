@@ -26,7 +26,7 @@
 <img id="show" src=""/>
 
 <script>
-    var selecter = new ImgSlter();
+    var selecter = new ImgSlter({color:'#ff0000'});
     selecter.handler = function(data){
         document.getElementById('show').src = data.img;
     };

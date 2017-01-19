@@ -34,20 +34,20 @@
 
     ImgSlter.prototype = {
         initialize: function (config) {
-            var _self = this;
-
             var _config = config || {};
             this.el = _config.el || function () {
-                var input = document.createElement("INPUT");
-                input.type = 'file';
-                input.accept = 'image/png,image/jpeg,image/gif';
-                input.capture = 'camera';
-                return input;
-            }();
+                    var input = document.createElement("INPUT");
+                    input.type = 'file';
+                    input.accept = 'image/png,image/jpeg,image/gif';
+                    input.capture = 'camera';
+                    return input;
+                }();
             this.size = _config.size || 500;
             this.type = _config.type || 'jpeg';
             this.quality = _config.quality || 0.7;
-            this.handler = _config.handler || function(){};
+            this.handler = _config.handler || function () {
+                };
+            this.color = _config.color;
 
             this.ua = uaParser();
             this.cvs = document.createElement('canvas');
@@ -91,35 +91,41 @@
                         tmpImgH = imgW;
                     }
 
+                    var _w, _h, _r;
                     switch (Orientation) {
                         case 3:
-                            _self.cvs.width = imgW2;
-                            _self.cvs.height = imgH2;
-                            _self.ctx.clearRect(0, 0, imgW2, imgH2);
-                            _self.ctx.translate(imgW2 / 2, imgH2 / 2);
-                            _self.ctx.rotate(180 * Math.PI / 180);
+                            _w = imgW2;
+                            _h = imgH2;
+                            _r = 180;
                             break;
                         case 6:
-                            _self.cvs.width = imgH2;
-                            _self.cvs.height = imgW2;
-                            _self.ctx.clearRect(0, 0, imgH2, imgW2);
-                            _self.ctx.translate(imgH2 / 2, imgW2 / 2);
-                            _self.ctx.rotate(90 * Math.PI / 180);
+                            _w = imgH2;
+                            _h = imgW2;
+                            _r = 90;
                             break;
                         case 8:
-                            _self.cvs.width = imgH2;
-                            _self.cvs.height = imgW2;
-                            _self.ctx.clearRect(0, 0, imgH2, imgW2);
-                            _self.ctx.translate(imgH2 / 2, imgW2 / 2);
-                            _self.ctx.rotate(270 * Math.PI / 180);
+                            _w = imgH2;
+                            _h = imgW2;
+                            _r = 270;
                             break;
                         default:
-                            _self.cvs.width = imgW2;
-                            _self.cvs.height = imgH2;
-                            _self.ctx.clearRect(0, 0, imgW2, imgH2);
-                            _self.ctx.translate(imgW2 / 2, imgH2 / 2);
+                            _w = imgW2;
+                            _h = imgH2;
+                            _r = 0;
                             break;
                     }
+
+                    _self.cvs.width = _w;
+                    _self.cvs.height = _h;
+                    _self.ctx.clearRect(0, 0, _w, _h);
+
+                    if (_self.color) {
+                        _self.ctx.fillStyle = _self.color;
+                        _self.ctx.fillRect(0, 0, _w, _h);
+                    }
+
+                    _self.ctx.translate(_w / 2, _h / 2);
+                    _self.ctx.rotate(_r * Math.PI / 180);
 
                     if (3260 < tmpImgW || tmpImgH > 2440) {
                         if (_self.ua.ios) {
