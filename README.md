@@ -10,6 +10,7 @@ demo地址:http://shrek.imdevsh.com/demo/input/
 创建组件  
 new ImgSlter(config);  
 config.el  指定对象，可以直接指定一个已有input标签，如不填会默认自动创建一个input标签  
+config.color  设置背景色，因为type默认是jpg，有时选择一些透明png，然后最后获取到得jpg会看到原来的透明部分变成了黑色（其实就是无色），为了避免这种状况，可以设置一个背景色（例如白色）。  
 config.size  图片最大尺寸，不填则默认值为500px  
 config.type  输出二进制流图片类型，默认值是jpeg  
 config.quality  输出图片质量，当图片为jpeg时有效  
