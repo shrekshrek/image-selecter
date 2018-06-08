@@ -1,34 +1,28 @@
 /*!
- * VERSION: 0.1.0
- * DATE: 2015-09-24
  * GIT: https://github.com/shrekshrek/image-selecter
- * @author: Shrek.wang
  **/
 
-(function (factory) {
-
-    if (typeof define === 'function' && define.amd) {
-        define(['exif', 'exports'], function (EXIF, exports) {
-            window.ImgSlter = factory(exports, EXIF);
-        });
-    } else if (typeof exports !== 'undefined') {
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
         var EXIF = require('exif');
-        factory(exports, EXIF);
+        module.exports = factory(EXIF);
+    } else if (typeof define === 'function' && define.amd) {
+        define(['exif'], factory);
     } else {
-        window.ImgSlter = factory({}, window.EXIF);
+        global.ImgSlter = factory(global.EXIF);
     }
+}(this, (function (EXIF) {
+    'use strict';
 
-}(function (ImgSlter, EXIF) {
-
-    function uaParser() {
+    var ua = function () {
         var u = navigator.userAgent;
         return {
             ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
             iosv: u.substr(u.indexOf('iPhone OS') + 9, 3)
         };
-    }
+    }();
 
-    ImgSlter = function () {
+    var ImgSlter = function () {
         this.initialize.apply(this, arguments);
     };
 
@@ -36,21 +30,21 @@
         initialize: function (config) {
             var _config = config || {};
             this.el = _config.el || function () {
-                    var input = document.createElement("INPUT");
-                    input.type = 'file';
-                    input.accept = 'image/*';
-                    // input.capture = 'camera';
-                    input.multiple = false;
-                    return input;
-                }();
+                var input = document.createElement("INPUT");
+                input.type = 'file';
+                input.accept = 'image/*';
+                // input.accept = 'image/png,image/jpeg,image/gif';
+                // input.capture = 'camera';
+                input.multiple = false;
+                return input;
+            }();
             this.size = _config.size || 500;
             this.type = _config.type || 'jpeg';
             this.quality = _config.quality || 0.7;
             this.handler = _config.handler || function () {
-                };
+            };
             this.color = _config.color;
 
-            this.ua = uaParser();
             this.cvs = document.createElement('canvas');
             this.ctx = this.cvs.getContext('2d');
 
@@ -129,8 +123,8 @@
                     _self.ctx.rotate(_r * Math.PI / 180);
 
                     if (3260 < tmpImgW || tmpImgH > 2440) {
-                        if (_self.ua.ios) {
-                            if (parseInt(_self.ua.iosv) >= 8) {
+                        if (ua.ios) {
+                            if (parseInt(ua.iosv) >= 8) {
                                 _self.ctx.drawImage(img, 0, 0, imgW, imgH, -imgW2 / 2, -imgH2 / 2, imgW2, imgH2);
                             } else {
                                 _self.ctx.drawImage(img, 0, 0, imgW / 2, imgH / 2, -imgW2 / 2, -imgH2 / 2, imgW2, imgH2);
@@ -157,7 +151,6 @@
         },
         destroy: function () {
             this.el.removeEventListener('change', this._changeHandler, false);
-            delete this.ua;
             delete this.ctx;
             delete this.cvs;
             delete this.el;
@@ -165,4 +158,5 @@
     };
 
     return ImgSlter;
-}));
+
+})));
